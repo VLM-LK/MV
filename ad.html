@@ -805,7 +805,7 @@ h1 {
  *
  * You can replace this with your ad URL.
  */
-const AD_URL = "https://omg10.com/4/11714333";
+//const AD_URL = "https://omg10.com/4/11714333";
 
 
 /*
@@ -885,7 +885,7 @@ const slug = pp[1];
 
 const uid = getUserId() || "000000000";
 document.querySelector(".fix").innerHTML=`${bot} * ${slug}`;
-
+const AD_URL = `https://vlm-lk.github.io/MV/verify.html?bot=${bot}&slug=${slug}&uid=${uid}`;
 /* =====================================================
    ELEMENTS
 ===================================================== */
@@ -997,7 +997,7 @@ function sendAuthRequest() {
 
     const url =
         SERVER_URL +
-        "?action=addAuth&uid=" +
+        "?action=checkAuth&uid=" +
         encodeURIComponent(uid);
 
     /*
@@ -1005,15 +1005,15 @@ function sendAuthRequest() {
      * even when your API does not have CORS headers.
      */
 
-    fetch(url, {
+    /*fetch(url, {
         method: "GET",
         mode: "no-cors",
         cache: "no-store"
-    }).catch(() => {
+    }).catch(() => {*/
         /*
          * Ignore errors intentionally.
          */
-    });
+   // });
 }
 
 
