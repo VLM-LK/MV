@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+               maximum-scale=1.0, user-scalable=no">
+
+<title>Continue</title>
+
+<!-- Telegram WebApp -->
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<!-- Google Material Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,1,0"
+      rel="stylesheet">
+
+<style>
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+    --bg: #07080b;
+    --card: #101217;
+    --card2: #15171e;
+    --border: rgba(255,255,255,.08);
+    --text: #ffffff;
+    --muted: #8d929e;
+    --accent: #a8ff00;
+    --accent2: #d7ff70;
+    --danger: #ff5571;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+    background:
+        radial-gradient(
+            circle at 50% -10%,
+            rgba(168,255,0,.12),
+            transparent 38%
+        ),
+        var(--bg);
+    color: var(--text);
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+#loadingScreen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background: #07080b;
+    transition: opacity .35s ease,
+                visibility .35s ease;
+}
+
+#loadingScreen.hide {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader {
+    width: 52px;
+    height: 52px;
+
+    border-radius: 50%;
+    border: 4px solid rgba(255,255,255,.08);
+    border-top-color: var(--accent);
+
+    animation: spin .8s linear infinite;
+}
+
+.loadingText {
+    margin-top: 18px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* =========================
+   PAGE
+========================= */
+
+.app {
+    width: 100%;
+    max-width: 520px;
+    margin: auto;
+    padding: 22px 16px 30px;
+}
+
+/* =========================
+   TOP
+========================= */
+
+.top {
+    text-align: center;
+    padding: 12px 0 22px;
+}
+
+.logo {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 21px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #c9ff47,
+            #8bd900
+        );
+
+    color: #101400;
+
+    box-shadow:
+        0 0 35px rgba(168,255,0,.18);
+}
+
+.logo span {
+    font-size: 34px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 25px;
+    font-weight: 750;
+    letter-spacing: -.5px;
+}
+
+.subtitle {
+    margin: 8px auto 0;
+    max-width: 330px;
+
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card {
+    position: relative;
+
+    padding: 20px;
+
+    border: 1px solid var(--border);
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.055),
+            rgba(255,255,255,.018)
+        );
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.3);
+
+    overflow: hidden;
+}
+
+.card::before {
+    content: "";
+
+    position: absolute;
+    width: 180px;
+    height: 180px;
+
+    top: -110px;
+    right: -80px;
+
+    background: var(--accent);
+    opacity: .05;
+
+    filter: blur(45px);
+    border-radius: 50%;
+}
+
+/* =========================
+   STEPS
+========================= */
+
+.step {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+
+    padding: 15px 0;
+
+    border-bottom: 1px solid rgba(255,255,255,.055);
+}
+
+.step:last-child {
+    border-bottom: 0;
+}
+
+.stepIcon {
+    flex-shrink: 0;
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background: rgba(168,255,0,.09);
+    color: var(--accent);
+}
+
+.stepIcon span {
+    font-size: 22px;
+}
+
+.stepText {
+    min-width: 0;
+}
+
+.stepTitle {
+    font-size: 14px;
+    font-weight: 650;
+}
+
+.stepDesc {
+    margin-top: 4px;
+
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* =========================
+   AD BUTTON
+========================= */
+
+.adButton {
+    width: 100%;
+    margin-top: 18px;
+
+    min-height: 58px;
+
+    border: 0;
+    border-radius: 17px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #caff45,
+            #91e400
+        );
+
+    color: #101400;
+
+    font-size: 15px;
+    font-weight: 800;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 30px rgba(168,255,0,.15);
+
+    transition:
+        transform .15s ease,
+        filter .15s ease;
+}
+
+.adButton:active {
+    transform: scale(.97);
+}
+
+.adButton:disabled {
+    cursor: default;
+    filter: grayscale(.6);
+    opacity: .5;
+    box-shadow: none;
+}
+
+.adButton span {
+    font-size: 21px;
+}
+
+/* =========================
+   TIMER
+========================= */
+
+.timerBox {
+    display: none;
+
+    margin-top: 16px;
+    padding: 15px;
+
+    border-radius: 16px;
+
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.06);
+
+    text-align: center;
+}
+
+.timerBox.show {
+    display: block;
+}
+
+.timerNumber {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--accent);
+}
+
+.timerLabel {
+    margin-top: 3px;
+
+    font-size: 12px;
+    color: var(--muted);
+}
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progressWrap {
+    margin-top: 15px;
+
+    height: 5px;
+
+    border-radius: 20px;
+
+    background: rgba(255,255,255,.07);
+
+    overflow: hidden;
+
+    display: none;
+}
+
+.progressWrap.show {
+    display: block;
+}
+
+.progress {
+    height: 100%;
+    width: 0%;
+
+    border-radius: inherit;
+
+    background: var(--accent);
+
+    transition: width 1s linear;
+}
+
+/* =========================
+   CONTINUE
+========================= */
+
+.continueButton {
+    width: 100%;
+
+    margin-top: 12px;
+
+    min-height: 54px;
+
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 16px;
+
+    background: #181b22;
+
+    color: white;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    cursor: pointer;
+
+    opacity: .45;
+    pointer-events: none;
+
+    transition: .2s ease;
+}
+
+.continueButton.ready {
+    opacity: 1;
+    pointer-events: auto;
+
+    border-color: rgba(168,255,0,.2);
+
+    background:
+        linear-gradient(
+            135deg,
+            #171c13,
+            #11140e
+        );
+
+    color: var(--accent);
+}
+
+.continueButton:active {
+    transform: scale(.98);
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.status {
+    display: none;
+
+    margin-top: 14px;
+    padding: 12px 14px;
+
+    border-radius: 13px;
+
+    font-size: 12px;
+    line-height: 1.4;
+
+    text-align: center;
+}
+
+.status.show {
+    display: block;
+}
+
+.status.error {
+    background: rgba(255,85,113,.08);
+    border: 1px solid rgba(255,85,113,.15);
+    color: #ff8195;
+}
+
+.status.success {
+    background: rgba(168,255,0,.07);
+    border: 1px solid rgba(168,255,0,.12);
+    color: var(--accent2);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    padding: 20px 5px 0;
+
+    text-align: center;
+
+    color: #626773;
+    font-size: 11px;
+}
+
+.footer span {
+    color: #838894;
+}
+
+/* =========================
+   ERROR PAGE
+========================= */
+
+#errorPage {
+    display: none;
+
+    min-height: 100vh;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 25px;
+}
+
+.errorCard {
+    width: 100%;
+    max-width: 400px;
+
+    padding: 30px 22px;
+
+    text-align: center;
+
+    border: 1px solid var(--border);
+    border-radius: 24px;
+
+    background: var(--card);
+}
+
+.errorIcon {
+    width: 65px;
+    height: 65px;
+
+    margin: 0 auto 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 20px;
+
+    background: rgba(255,85,113,.08);
+    color: var(--danger);
+}
+
+.errorIcon span {
+    font-size: 32px;
+}
+
+.errorCard h2 {
+    margin: 0;
+}
+
+.errorCard p {
+    margin: 10px 0 0;
+
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     LOADING SCREEN
+========================= -->
+
+<div id="loadingScreen">
+    <div class="loader"></div>
+    <div class="loadingText">
+        Preparing your link...
+    </div>
+</div>
+
+
+<!-- =========================
+     ERROR
+========================= -->
+
+<div id="errorPage">
+    <div class="errorCard">
+
+        <div class="errorIcon">
+            <span class="material-symbols-rounded">
+                error
+            </span>
+        </div>
+
+        <h2>Invalid Link</h2>
+
+        <p>
+            This link is missing required information
+            or is no longer valid.
+        </p>
+
+    </div>
+</div>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="app" id="mainApp">
+
+    <section class="top">
+
+        <div class="logo">
+            <span class="material-symbols-rounded">
+                lock_open
+            </span>
+        </div>
+
+        <h1>One step to continue</h1>
+
+        <div class="subtitle">
+            Open the sponsor page below to unlock
+            your destination link.
+        </div>
+
+    </section>
+
+
+    <section class="card">
+
+        <!-- STEP 1 -->
+
+        <div class="step">
+
+            <div class="stepIcon">
+                <span class="material-symbols-rounded">
+                    ads_click
+                </span>
+            </div>
+
+            <div class="stepText">
+
+                <div class="stepTitle">
+                    Open the sponsor
+                </div>
+
+                <div class="stepDesc">
+                    Tap the button and visit the sponsor page.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- STEP 2 -->
+
+        <div class="step">
+
+            <div class="stepIcon">
+                <span class="material-symbols-rounded">
+                    timer
+                </span>
+            </div>
+
+            <div class="stepText">
+
+                <div class="stepTitle">
+                    Wait a moment
+                </div>
+
+                <div class="stepDesc">
+                    Keep this page open while the timer runs.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- STEP 3 -->
+
+        <div class="step">
+
+            <div class="stepIcon">
+                <span class="material-symbols-rounded">
+                    arrow_forward
+                </span>
+            </div>
+
+            <div class="stepText">
+
+                <div class="stepTitle">
+                    Continue
+                </div>
+
+                <div class="stepDesc">
+                    Your destination link will be ready.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- AD BUTTON -->
+
+        <button
+            class="adButton"
+            id="adButton"
+            type="button">
+
+            <span class="material-symbols-rounded">
+                open_in_new
+            </span>
+
+            <span id="adButtonText">
+                Open Sponsor
+            </span>
+
+        </button>
+
+
+        <!-- TIMER -->
+
+        <div
+            class="timerBox"
+            id="timerBox">
+
+            <div
+                class="timerNumber"
+                id="timerNumber">
+                10
+            </div>
+
+            <div class="timerLabel">
+                seconds remaining
+            </div>
+
+        </div>
+
+
+        <!-- PROGRESS -->
+
+        <div
+            class="progressWrap"
+            id="progressWrap">
+
+            <div
+                class="progress"
+                id="progress">
+            </div>
+
+        </div>
+
+
+        <!-- CONTINUE -->
+
+        <button
+            class="continueButton"
+            id="continueButton"
+            type="button">
+
+            <span class="material-symbols-rounded">
+                arrow_forward
+            </span>
+
+            Continue to Telegram
+
+        </button>
+
+
+        <!-- STATUS -->
+
+        <div
+            class="status"
+            id="status">
+        </div>
+
+    </section>
+
+
+    <div class="footer">
+        Secure redirect
+        <span>•</span>
+        Powered by Telegram WebApp
+    </div>
+
+</main>
+
+
+<script>
+
+/* =====================================================
+   CONFIGURATION
+===================================================== */
+
+/*
+ * Your advertisement URL.
+ *
+ * You can replace this with your ad URL.
+ */
+const AD_URL = "https://omg10.com/4/11714333";
+
+
+/*
+ * Your server / Apps Script URL.
+ *
+ * Example:
+ *
+ * https://script.google.com/macros/s/XXXX/exec
+ */
+const SERVER_URL =
+    "https://script.google.com/macros/s/AKfycbxWY-Xamkgv9fNUeaYWpBluRLZR0ypekzd3hRIJ1fQ2Vuy7UPKQ-R9padpNNGcZC1cYFA/exec";
+
+
+/*
+ * Countdown duration.
+ */
+const COUNTDOWN_SECONDS = 10;
+
+
+/* =====================================================
+   TELEGRAM
+===================================================== */
+
+const tg = window.Telegram?.WebApp;
+
+if (tg) {
+    tg.ready();
+    tg.expand();
+
+    /*
+     * Telegram dark theme colors
+     */
+    if (tg.setHeaderColor) {
+        tg.setHeaderColor("#07080b");
+    }
+
+    if (tg.setBackgroundColor) {
+        tg.setBackgroundColor("#07080b");
+    }
+}
+
+  function getUserId() {
+
+    if (tg?.initDataUnsafe?.user?.id) {
+      return String(tg.initDataUnsafe.user.id);
+    }
+
+    return null;
+  }
+  
+  function getStartParam() {
+
+    // Telegram Mini App
+    if (tg?.initDataUnsafe?.start_param) {
+      return tg.initDataUnsafe.start_param;
+    }
+
+    // Fallback for testing in browser
+    const params = new URLSearchParams(location.search);
+
+    return (
+      params.get("startapp") ||
+      params.get("start") ||
+      params.get("id")
+    );
+  }
+
+
+/* =====================================================
+   GET URL PARAMETERS
+===================================================== */
+
+const params = getStartParam()
+const pp = params.split("_");
+const bot = pp[0];
+const slug = pp[1];
+
+const userId = getUserId() || "000000000";
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const loadingScreen =
+    document.getElementById("loadingScreen");
+
+const mainApp =
+    document.getElementById("mainApp");
+
+const errorPage =
+    document.getElementById("errorPage");
+
+const adButton =
+    document.getElementById("adButton");
+
+const adButtonText =
+    document.getElementById("adButtonText");
+
+const timerBox =
+    document.getElementById("timerBox");
+
+const timerNumber =
+    document.getElementById("timerNumber");
+
+const progressWrap =
+    document.getElementById("progressWrap");
+
+const progress =
+    document.getElementById("progress");
+
+const continueButton =
+    document.getElementById("continueButton");
+
+const status =
+    document.getElementById("status");
+
+
+/* =====================================================
+   VALIDATE
+===================================================== */
+
+function showError() {
+
+    loadingScreen.classList.add("hide");
+
+    mainApp.style.display = "none";
+
+    errorPage.style.display = "flex";
+}
+
+
+if (!bot || !slug || !uid) {
+
+    showError();
+
+} else {
+
+    /*
+     * Everything is valid.
+     */
+    setTimeout(() => {
+        loadingScreen.classList.add("hide");
+    }, 500);
+
+}
+
+
+/* =====================================================
+   BUILD TELEGRAM URL
+===================================================== */
+
+function buildTelegramUrl() {
+
+    /*
+     * Example result:
+     *
+     * https://t.me/mybot?start=abc123
+     */
+
+    const cleanBot =
+        bot.replace(/^@/, "");
+
+    return "https://t.me/" +
+        encodeURIComponent(cleanBot) +
+        "?start=" +
+        encodeURIComponent(slug);
+}
+
+
+/* =====================================================
+   SEND AUTH REQUEST
+===================================================== */
+
+function sendAuthRequest() {
+
+    /*
+     * IMPORTANT:
+     *
+     * We don't wait for this request.
+     *
+     * The user can continue regardless of
+     * whether the server responds.
+     */
+
+    if (!SERVER_URL) {
+        return;
+    }
+
+    const url =
+        SERVER_URL +
+        "?action=addAuth&uid=" +
+        encodeURIComponent(uid);
+
+    /*
+     * no-cors allows the browser to send the request
+     * even when your API does not have CORS headers.
+     */
+
+    fetch(url, {
+        method: "GET",
+        mode: "no-cors",
+        cache: "no-store"
+    }).catch(() => {
+        /*
+         * Ignore errors intentionally.
+         */
+    });
+}
+
+
+/* =====================================================
+   OPEN AD
+===================================================== */
+
+let started = false;
+
+adButton.addEventListener("click", () => {
+
+    if (started) {
+        return;
+    }
+
+    started = true;
+
+    /*
+     * Open advertisement in a new tab.
+     */
+    window.open(
+        AD_URL,
+        "_blank",
+        "noopener,noreferrer"
+    );
+
+
+    /*
+     * Tell your server that the user clicked.
+     */
+    sendAuthRequest();
+
+
+    /*
+     * Update UI.
+     */
+
+    adButton.disabled = true;
+
+    adButtonText.textContent =
+        "Sponsor Opened";
+
+    timerBox.classList.add("show");
+
+    progressWrap.classList.add("show");
+
+
+    startCountdown();
+
+});
+
+
+/* =====================================================
+   COUNTDOWN
+===================================================== */
+
+function startCountdown() {
+
+    let remaining =
+        COUNTDOWN_SECONDS;
+
+    timerNumber.textContent =
+        remaining;
+
+    progress.style.width = "0%";
+
+
+    const interval =
+        setInterval(() => {
+
+            remaining--;
+
+            timerNumber.textContent =
+                Math.max(remaining, 0);
+
+            const completed =
+                ((COUNTDOWN_SECONDS - remaining)
+                / COUNTDOWN_SECONDS) * 100;
+
+            progress.style.width =
+                Math.min(completed, 100) + "%";
+
+
+            if (remaining <= 0) {
+
+                clearInterval(interval);
+
+                finishCountdown();
+            }
+
+        }, 1000);
+}
+
+
+/* =====================================================
+   FINISHED
+===================================================== */
+
+function finishCountdown() {
+
+    timerNumber.textContent = "✓";
+
+    progress.style.width = "100%";
+
+    document.querySelector(".timerLabel")
+        .textContent =
+        "Link unlocked";
+
+
+    status.className =
+        "status success show";
+
+    status.textContent =
+        "Your destination is ready.";
+
+
+    continueButton.classList.add("ready");
+}
+
+
+/* =====================================================
+   CONTINUE
+===================================================== */
+
+continueButton.addEventListener(
+    "click",
+    () => {
+
+        const destination =
+            buildTelegramUrl();
+
+        /*
+         * Telegram WebApp:
+         * open inside Telegram when possible.
+         */
+
+        if (tg && tg.openTelegramLink) {
+
+            tg.openTelegramLink(
+                destination
+            );
+
+        } else {
+
+            window.location.href =
+                destination;
+        }
+
+    }
+);
+
+</script>
+
+</body>
+  </html>
