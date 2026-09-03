@@ -68,7 +68,7 @@ body {
       font-weight:700;
       color:white;
       font-size:20px;
-      /*display:none;*/
+      display:none;
       }
 
 /* =========================
@@ -883,7 +883,7 @@ const pp = params.split("-");
 const bot = pp[0];
 const slug = pp[1];
 
-const userId = getUserId() || "000000000";
+const uid = getUserId() || "000000000";
 document.querySelector(".fix").innerHTML=`${bot} * ${slug}`;
 
 /* =====================================================
@@ -1168,4 +1168,4 @@ continueButton.addEventListener(
 </script>
 
 </body>
-  </html>
+      </html>
