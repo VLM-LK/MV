@@ -424,7 +424,7 @@
       const mediaId = getStartParam() || "";
       const userId = getUserId() || "000000000";
 
-      document.querySelector(".fix").inneHTML=`${mediaId} * ${userId}`;
+      document.querySelector(".fix").innerHTML=`${mediaId} * ${userId}`;
 
       if (!mediaId) {
         showNoMedia();
