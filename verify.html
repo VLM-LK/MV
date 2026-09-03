@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<title>Continue</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,1"
+      rel="stylesheet">
+
+<style>
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+    --bg: #07090c;
+    --card: #111419;
+    --card2: #171a20;
+    --text: #fff;
+    --muted: #858b97;
+    --accent: #b6ff19;
+    --accent-dark: #86c900;
+    --border: rgba(255,255,255,.08);
+}
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+#loading {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at 50% 30%,
+            rgba(182,255,25,.12),
+            transparent 35%
+        ),
+        var(--bg);
+
+    transition: .35s ease;
+}
+
+#loading.hide {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.spinner {
+    width: 42px;
+    height: 42px;
+
+    border: 3px solid rgba(255,255,255,.08);
+    border-top-color: var(--accent);
+
+    border-radius: 50%;
+
+    animation: spin .65s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* =========================
+   APP
+========================= */
+
+.app {
+    min-height: 100vh;
+    max-width: 500px;
+
+    margin: auto;
+    padding: 30px 17px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.logo {
+    width: 70px;
+    height: 70px;
+
+    margin: 0 auto 17px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #d6ff70,
+            var(--accent-dark)
+        );
+
+    color: #101500;
+
+    box-shadow:
+        0 15px 45px rgba(182,255,25,.15);
+}
+
+.logo span {
+    font-size: 35px;
+}
+
+.header h1 {
+    margin: 0;
+
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -.6px;
+}
+
+.header p {
+    margin: 9px auto 0;
+
+    max-width: 320px;
+
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card {
+    position: relative;
+
+    padding: 21px;
+
+    border: 1px solid var(--border);
+    border-radius: 25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.055),
+            rgba(255,255,255,.015)
+        );
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.35);
+
+    overflow: hidden;
+}
+
+.card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    top: -120px;
+    right: -70px;
+
+    background: var(--accent);
+    opacity: .06;
+
+    filter: blur(45px);
+
+    border-radius: 50%;
+}
+
+/* =========================
+   INFO
+========================= */
+
+.info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    padding: 14px;
+
+    border-radius: 17px;
+
+    background: rgba(255,255,255,.035);
+
+    border: 1px solid rgba(255,255,255,.05);
+}
+
+.infoIcon {
+    width: 43px;
+    height: 43px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background: rgba(182,255,25,.09);
+
+    color: var(--accent);
+}
+
+.infoIcon span {
+    font-size: 22px;
+}
+
+.infoTitle {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.infoText {
+    margin-top: 3px;
+
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.action {
+    width: 100%;
+    min-height: 58px;
+
+    margin-top: 17px;
+
+    border: 0;
+    border-radius: 17px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #d4ff65,
+            var(--accent)
+        );
+
+    color: #101500;
+
+    font-size: 15px;
+    font-weight: 800;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 12px 35px rgba(182,255,25,.14);
+
+    transition: transform .12s ease;
+}
+
+.action:active {
+    transform: scale(.97);
+}
+
+.action span {
+    font-size: 21px;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.status {
+    display: none;
+
+    margin-top: 14px;
+
+    padding: 13px;
+
+    border-radius: 15px;
+
+    background: rgba(182,255,25,.06);
+    border: 1px solid rgba(182,255,25,.12);
+
+    text-align: center;
+
+    color: #d8ff85;
+
+    font-size: 12px;
+}
+
+.status.show {
+    display: block;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    margin-top: 18px;
+
+    text-align: center;
+
+    color: #555b66;
+
+    font-size: 11px;
+}
+
+.footer b {
+    color: #777d87;
+}
+
+/* =========================
+   ERROR
+========================= */
+
+#error {
+    display: none;
+
+    position: fixed;
+    inset: 0;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+}
+
+.errorCard {
+    width: 100%;
+    max-width: 390px;
+
+    padding: 30px 22px;
+
+    text-align: center;
+
+    border-radius: 24px;
+
+    background: var(--card);
+    border: 1px solid var(--border);
+}
+
+.errorIcon {
+    width: 62px;
+    height: 62px;
+
+    margin: 0 auto 17px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 19px;
+
+    background: rgba(255,70,95,.09);
+
+    color: #ff6279;
+}
+
+.errorIcon span {
+    font-size: 31px;
+}
+
+.errorCard h2 {
+    margin: 0;
+}
+
+.errorCard p {
+    margin: 9px 0 0;
+
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOADING -->
+
+<div id="loading">
+    <div class="spinner"></div>
+</div>
+
+
+<!-- ERROR -->
+
+<div id="error">
+
+    <div class="errorCard">
+
+        <div class="errorIcon">
+            <span class="material-symbols-rounded">
+                error
+            </span>
+        </div>
+
+        <h2>Invalid Link</h2>
+
+        <p>
+            This link is missing required parameters
+            or is no longer available.
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<main class="app" id="app">
+
+    <div class="header">
+
+        <div class="logo">
+            <span class="material-symbols-rounded">
+                bolt
+            </span>
+        </div>
+
+        <h1>Ready to continue?</h1>
+
+        <p>
+            Tap the button below to continue to
+            your destination.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="info">
+
+            <div class="infoIcon">
+                <span class="material-symbols-rounded">
+                    open_in_new
+                </span>
+            </div>
+
+            <div>
+
+                <div class="infoTitle">
+                    Continue to sponsor
+                </div>
+
+                <div class="infoText">
+                    The sponsor page will open instantly.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="action"
+            id="actionButton">
+
+            <span class="material-symbols-rounded">
+                rocket_launch
+            </span>
+
+            Continue
+
+        </button>
+
+
+        <div
+            class="status"
+            id="status">
+
+            ✓ Request sent successfully
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+        Fast redirect <b>•</b> Telegram WebApp
+    </div>
+
+</main>
+
+
+<script>
+
+/* =====================================================
+   CONFIG
+===================================================== */
+
+const AD_URL =
+    "https://omg10.com/4/11714333";
+
+
+const SERVER_URL =
+    "https://script.google.com/macros/s/AKfycbxWY-Xamkgv9fNUeaYWpBluRLZR0ypekzd3hRIJ1fQ2Vuy7UPKQ-R9padpNNGcZC1cYFA/exec";
+
+
+/* =====================================================
+   TELEGRAM
+===================================================== */
+
+const tg =
+    window.Telegram?.WebApp;
+
+if (tg) {
+
+    tg.ready();
+    tg.expand();
+
+    try {
+        tg.setHeaderColor("#07090c");
+        tg.setBackgroundColor("#07090c");
+    } catch (e) {}
+
+}
+
+
+/* =====================================================
+   PARAMETERS
+===================================================== */
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+const bot =
+    params.get("bot");
+
+const slug =
+    params.get("slug");
+
+const uid =
+    params.get("uid");
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const loading =
+    document.getElementById("loading");
+
+const app =
+    document.getElementById("app");
+
+const error =
+    document.getElementById("error");
+
+const button =
+    document.getElementById("actionButton");
+
+const status =
+    document.getElementById("status");
+
+
+/* =====================================================
+   VALIDATION
+===================================================== */
+
+if (!bot || !slug || !uid) {
+
+    loading.classList.add("hide");
+
+    app.style.display = "none";
+
+    error.style.display = "flex";
+
+} else {
+
+    setTimeout(() => {
+        loading.classList.add("hide");
+    }, 350);
+
+}
+
+
+/* =====================================================
+   SEND AUTH
+===================================================== */
+
+function sendAuth() {
+
+    const url =
+        SERVER_URL +
+        "?action=addAuth&uid=" +
+        encodeURIComponent(uid);
+
+    /*
+     * Fire request without waiting for response.
+     *
+     * This makes the redirect very fast.
+     */
+
+    fetch(url, {
+        method: "GET",
+        mode: "no-cors",
+        cache: "no-store",
+        keepalive: true
+    }).catch(() => {});
+
+}
+
+
+/* =====================================================
+   BUILD TELEGRAM URL
+===================================================== */
+
+function getTelegramUrl() {
+
+    const username =
+        bot.replace(/^@/, "");
+
+    return (
+        "https://t.me/" +
+        encodeURIComponent(username) +
+        "?start=" +
+        encodeURIComponent(slug)
+    );
+
+}
+
+
+/* =====================================================
+   MAIN ACTION
+===================================================== */
+
+let clicked = false;
+
+button.addEventListener("click", () => {
+
+    if (clicked) return;
+
+    clicked = true;
+
+    /*
+     * 1. Send auth request immediately.
+     */
+    sendAuth();
+
+
+    /*
+     * 2. Open advertisement immediately.
+     */
+    const adWindow =
+        window.open(
+            AD_URL,
+            "_blank",
+            "noopener,noreferrer"
+        );
+
+
+    /*
+     * 3. UI feedback.
+     */
+
+    button.innerHTML = `
+        <span class="material-symbols-rounded">
+            check_circle
+        </span>
+        Opened
+    `;
+
+    status.classList.add("show");
+
+
+    /*
+     * If popup was blocked, navigate current
+     * page to the ad instead.
+     */
+
+    if (!adWindow) {
+
+        window.location.href =
+            AD_URL;
+
+    }
+
+});
+
+
+</script>
+
+</body>
+  </html>
