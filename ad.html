@@ -60,6 +60,17 @@ body {
     overflow-x: hidden;
 }
 
+      .fix{
+      position:fixed;
+      top:10px;
+      left:10px;
+      z-index:10000;
+      font-weight:700;
+      color:white;
+      font-size:20px;
+      /*display:none;*/
+      }
+
 /* =========================
    LOADING
 ========================= */
@@ -559,7 +570,7 @@ h1 {
 </head>
 
 <body>
-
+<div class="fix"></div>
 <!-- =========================
      LOADING SCREEN
 ========================= -->
@@ -873,7 +884,7 @@ const bot = pp[0];
 const slug = pp[1];
 
 const userId = getUserId() || "000000000";
-
+document.querySelector(".fix").innerHTML=`${bot} * ${slug}`;
 
 /* =====================================================
    ELEMENTS
