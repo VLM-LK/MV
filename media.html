@@ -445,7 +445,7 @@
        * ?id=MEDIA_ID&user_id=TELEGRAM_USER_ID
        */
 
-      const url =
+      /*const url =
         API_URL +"?action=geturl"+
         "&slug=" + encodeURIComponent(mediaId) +
         "&uid=" + encodeURIComponent(userId);
@@ -463,7 +463,7 @@
 
 
       const data = await response.json();
-      console.log(JSON.stringify(data));
+      console.log(JSON.stringify(data));*/
 
       /*
        * Expected:
@@ -480,10 +480,10 @@
        */
 
 
-      if (!data || !data.url) {
+      /*if (!data || !data.url) {
         showNoMedia();
         return;
-      }
+      }*/
 
 
       /*
@@ -504,7 +504,7 @@
       };
 
 
-      media.src = data.url;
+      media.src = `https://raw.githubusercontent.com/VLM-LK/VLM-FBOT-WEB/main/thumbs/${mediaId}/${mediaId}_.jpg`; //data.url;
 
     } catch (err) {
 
